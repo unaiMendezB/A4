@@ -1,32 +1,31 @@
 import random
 import tsplib95
 import matplotlib.pyplot as plt
+import os
 
 
-def fitness(route):
+def fitness(route, graph):
     return -sum(graph[i][j]['weight'] for i, j in zip(route, route[1:] + route[:1]))
 
 
 # Selection
-
 # Tournament selection
-def tournament_selection(population):
+def tournament_selection(population, graph):
     tournament_size = 3
-    return max(random.sample(population, tournament_size), key=fitness)
+    return max(random.sample(population, tournament_size), key=lambda x: fitness(x, graph))
 
 
 # Roulette Wheel Selection
-def roulette_wheel_selection(population):
-    fitness_values = [fitness(individual) for individual in population]
+def roulette_wheel_selection(population, graph):
+    fitness_values = [fitness(individual, graph) for individual in population]
     total_fitness = sum(fitness_values)
     probabilities = [f / total_fitness for f in fitness_values]
     return random.choices(population, weights=probabilities, k=1)[0]
 
 
 # Crossovers
-
 # Order crossover (OX1)
-def order_crossover(parent):
+def order_crossover(parent, notUsed):
     size = len(parent)
     i, j = sorted(random.sample(range(size), 2))
     child = [-1] * size
@@ -47,7 +46,6 @@ def uniform_crossover(parent1, parent2):
 
 
 # Mutations
-
 # Swap mutation
 def swap_mutate(route):
     i, j = random.sample(range(len(route)), 2)
@@ -62,49 +60,71 @@ def scramble_mutate(route):
     route[i:j] = segment
 
 
-# Load data from .tsp file
-problem = tsplib95.load('dantzig42.tsp')
-graph = problem.get_graph()
-num_cities = len(graph.nodes)
+# Main function for the calculation of the TSP
+def a4_optimization(filepath, num_generations, population_size, mutation_rate, selection_method='tournament',
+                    crossover_method='order', mutation_method='swap'):
+    problem = tsplib95.load(filepath)
+    graph = problem.get_graph()
+    num_cities = len(graph.nodes)
 
-# Parameters
-num_generations = 10
-population_size = 50
-crossover_rate = 0.8
-mutation_rate = 0.2
-
-# Create the initial population
-population = []
-for _ in range(population_size):
-    individual = list(range(1, num_cities + 1))
-    random.shuffle(individual)
-    population.append(individual)
-
-best_fitness_values = []
-# Main Generic_algorithm loop
-for generation in range(num_generations):
-    new_population = []
+    population = []
     for _ in range(population_size):
-        parent1 = tournament_selection(population)
-        parent2 = tournament_selection(population)
-        child = order_crossover(parent1)
-        if random.random() < mutation_rate:
-            swap_mutate(child)
-        new_population.append(child)
-    population = new_population
-    best_fitness_values.append(-fitness(max(population, key=fitness)))
+        individual = list(range(1, num_cities + 1))
+        random.shuffle(individual)
+        population.append(individual)
 
-# Print best route
-best_route = max(population, key=fitness)
-print('Best route:', best_route)
+    best_fitness_values = []
 
-# Calculate and print minimal tour length
-minimal_tour_length = -fitness(best_route)
-print('Minimal tour length:', minimal_tour_length)
+    # Select appropriate functions based on user input
+    selection_function = tournament_selection if selection_method == 'tournament' else roulette_wheel_selection
+    crossover_function = order_crossover if crossover_method == 'order' else uniform_crossover
+    mutation_function = swap_mutate if mutation_method == 'swap' else scramble_mutate
 
-# Figure with the evolution of the minimum total traveling distance
-plt.plot(best_fitness_values)
-plt.title('Evolution of the minimum total traveling distance')
-plt.xlabel('Generation')
-plt.ylabel('Distance')
-plt.show()
+    for generation in range(num_generations):
+        new_population = []
+        for _ in range(population_size):
+            parent1 = selection_function(population, graph)
+            parent2 = selection_function(population, graph)
+            child = crossover_function(parent1, parent2)
+            if random.random() < mutation_rate:
+                mutation_function(child)
+            new_population.append(child)
+
+        population = new_population
+        best_fitness_values.append(-fitness(max(population, key=lambda x: fitness(x, graph)), graph))
+
+    best_route = max(population, key=lambda x: fitness(x, graph))
+    print(f'Best route for file {filepath}:', best_route)
+
+    minimal_tour_length = -fitness(best_route, graph)
+    print(f'Minimal tour length for file {filepath}:', minimal_tour_length)
+
+    # Plotting with filename and method information
+    plt.plot(best_fitness_values)
+    plt.title(f'Evolution of the minimum total traveling distance -> File: {filepath}'
+              f'\nSelection: {selection_method}, Crossover: {crossover_method}, Mutation: {mutation_method}')
+    plt.xlabel('Generation')
+    plt.ylabel('Distance')
+    plt.show()
+
+
+# Starting the calls
+
+# Dataset: Dantzig42
+a4_optimization('dantzig42.tsp', 5, 30, 0.2,
+                selection_method='tournament', crossover_method='order', mutation_method='swap')
+a4_optimization('dantzig42.tsp', 5, 20, 0.2,
+                selection_method='tournament', crossover_method='order', mutation_method='scramble')
+a4_optimization('dantzig42.tsp', 30, 100, 0.2,
+                selection_method='tournament', crossover_method='uniform', mutation_method='swap')
+a4_optimization('dantzig42.tsp', 30, 100, 0.2,
+                selection_method='tournament', crossover_method='uniform', mutation_method='scramble')
+
+a4_optimization('dantzig42.tsp', 5, 25, 0.2,
+                selection_method='roulette', crossover_method='order', mutation_method='swap')
+a4_optimization('dantzig42.tsp', 5, 25, 0.2,
+                selection_method='roulette', crossover_method='order', mutation_method='scramble')
+a4_optimization('dantzig42.tsp', 35, 100, 0.2,
+                selection_method='roulette', crossover_method='uniform', mutation_method='swap')
+a4_optimization('dantzig42.tsp', 35, 100, 0.2,
+                selection_method='roulette', crossover_method='uniform', mutation_method='scramble')
