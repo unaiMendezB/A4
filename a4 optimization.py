@@ -94,10 +94,11 @@ def a4_optimization(filepath, num_generations, population_size, mutation_rate, s
         best_fitness_values.append(-fitness(max(population, key=lambda x: fitness(x, graph)), graph))
 
     best_route = max(population, key=lambda x: fitness(x, graph))
-    print(f'Best route for file {filepath}:', best_route)
-
     minimal_tour_length = -fitness(best_route, graph)
-    print(f'Minimal tour length for file {filepath}:', minimal_tour_length)
+
+    print(f'Best route for file {filepath}:')
+    print(best_route)
+    print(f'Minimal tour length for file {filepath} is of {minimal_tour_length}')
 
     # Plotting with filename and method information
     plt.plot(best_fitness_values)
@@ -105,26 +106,33 @@ def a4_optimization(filepath, num_generations, population_size, mutation_rate, s
               f'\nSelection: {selection_method}, Crossover: {crossover_method}, Mutation: {mutation_method}')
     plt.xlabel('Generation')
     plt.ylabel('Distance')
+
+    # Generate a unique filename based on the original file name and the three variables
+    file_name = os.path.splitext(os.path.basename(filepath))[0]
+    save_plot_name = f'{file_name}_{selection_method}_{crossover_method}_{mutation_method}_plot.png'
+    save_plot_path = os.path.join('plots', save_plot_name)
+    plt.savefig(save_plot_path)
     plt.show()
 
 
 # Starting the calls
 
 # Dataset: Dantzig42
-a4_optimization('dantzig42.tsp', 5, 30, 0.2,
-                selection_method='tournament', crossover_method='order', mutation_method='swap')
-a4_optimization('dantzig42.tsp', 5, 20, 0.2,
-                selection_method='tournament', crossover_method='order', mutation_method='scramble')
-a4_optimization('dantzig42.tsp', 30, 100, 0.2,
-                selection_method='tournament', crossover_method='uniform', mutation_method='swap')
-a4_optimization('dantzig42.tsp', 30, 100, 0.2,
-                selection_method='tournament', crossover_method='uniform', mutation_method='scramble')
+# a4_optimization('dantzig42.tsp', 5, 30, 0.2,
+#                 selection_method='tournament', crossover_method='order', mutation_method='swap')
+# a4_optimization('dantzig42.tsp', 5, 20, 0.2,
+#                 selection_method='tournament', crossover_method='order', mutation_method='scramble')
+# a4_optimization('dantzig42.tsp', 30, 100, 0.2,
+#                 selection_method='tournament', crossover_method='uniform', mutation_method='swap')
+# a4_optimization('dantzig42.tsp', 30, 100, 0.2,
+#                 selection_method='tournament', crossover_method='uniform', mutation_method='scramble')
 
-a4_optimization('dantzig42.tsp', 5, 25, 0.2,
-                selection_method='roulette', crossover_method='order', mutation_method='swap')
-a4_optimization('dantzig42.tsp', 5, 25, 0.2,
-                selection_method='roulette', crossover_method='order', mutation_method='scramble')
-a4_optimization('dantzig42.tsp', 35, 100, 0.2,
-                selection_method='roulette', crossover_method='uniform', mutation_method='swap')
-a4_optimization('dantzig42.tsp', 35, 100, 0.2,
-                selection_method='roulette', crossover_method='uniform', mutation_method='scramble')
+# a4_optimization('dantzig42.tsp', 5, 25, 0.2,
+#                 selection_method='roulette', crossover_method='order', mutation_method='swap')
+# a4_optimization('dantzig42.tsp', 5, 30, 0.2,
+#                 selection_method='roulette', crossover_method='order', mutation_method='scramble')
+# a4_optimization('dantzig42.tsp', 35, 100, 0.2,
+#                 selection_method='roulette', crossover_method='uniform', mutation_method='swap')
+# a4_optimization('dantzig42.tsp', 35, 100, 0.2,
+#                 selection_method='roulette', crossover_method='uniform', mutation_method='scramble')
+
