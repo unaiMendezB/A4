@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import os
 
 
+# Fitness function for a given route and graph
 def fitness(route, graph):
     return -sum(graph[i][j]['weight'] for i, j in zip(route, route[1:] + route[:1]))
 
@@ -147,7 +148,6 @@ a4_optimization('mine.tsp', 5, 5, 0.2,
 a4_optimization('mine.tsp', 5, 5, 0.2,
                 selection_method='roulette', crossover_method='order', mutation_method='scramble')
 
-
 # Calls for cities between 10 and 30
 # Dataset: Burma14
 a4_optimization('burma14.tsp', 200, 250, 0.2,
@@ -176,7 +176,6 @@ a4_optimization('ulysses16.tsp', 100, 50, 0.2,
                 selection_method='roulette', crossover_method='order', mutation_method='swap')
 a4_optimization('ulysses16.tsp', 100, 150, 0.2,
                 selection_method='roulette', crossover_method='order', mutation_method='scramble')
-
 
 # Calls for more than 30 cities
 # Dataset: Dantzig42
