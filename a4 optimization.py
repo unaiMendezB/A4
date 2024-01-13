@@ -3,6 +3,7 @@ import tsplib95
 import matplotlib.pyplot as plt
 import os
 
+
 def fitness(route, graph):
     return -sum(graph[i][j]['weight'] for i, j in zip(route, route[1:] + route[:1]))
 
@@ -131,62 +132,77 @@ def a4_optimization(filepath, num_generations, population_size, mutation_rate, s
     plt.show()
 
 
+# Calls for under 10 cities
+# Dataset: Mine
+a4_optimization('mine.tsp', 5, 5, 0.2,
+                selection_method='tournament', crossover_method='order', mutation_method='swap')
+a4_optimization('mine.tsp', 5, 5, 0.2,
+                selection_method='tournament', crossover_method='order', mutation_method='scramble')
+a4_optimization('mine.tsp', 5, 5, 0.2,
+                selection_method='tournament', crossover_method='uniform', mutation_method='swap')
+a4_optimization('mine.tsp', 5, 5, 0.2,
+                selection_method='tournament', crossover_method='uniform', mutation_method='scramble')
+a4_optimization('mine.tsp', 5, 5, 0.2,
+                selection_method='roulette', crossover_method='order', mutation_method='swap')
+a4_optimization('mine.tsp', 5, 5, 0.2,
+                selection_method='roulette', crossover_method='order', mutation_method='scramble')
+
 
 # Calls for cities between 10 and 30
 # Dataset: Burma14
-a4_optimization('burma14.tsp', 100, 200, 0.2,
+a4_optimization('burma14.tsp', 200, 250, 0.2,
                 selection_method='tournament', crossover_method='order', mutation_method='swap')
-# a4_optimization('ulysses16.tsp', 100, 200, 0.2,
-#                 selection_method='tournament', crossover_method='order', mutation_method='scramble')
-# a4_optimization('ulysses16.tsp', 100, 150, 0.2,
-#                 selection_method='tournament', crossover_method='uniform', mutation_method='swap')
-# a4_optimization('ulysses16.tsp', 60, 250, 0.2,
-#                 selection_method='tournament', crossover_method='uniform', mutation_method='scramble')
-# a4_optimization('ulysses16.tsp', 100, 50, 0.2,
-#                 selection_method='roulette', crossover_method='order', mutation_method='swap')
-# a4_optimization('ulysses16.tsp', 100, 150, 0.2,
-#                 selection_method='roulette', crossover_method='order', mutation_method='scramble')
+a4_optimization('burma14.tsp', 200, 250, 0.2,
+                selection_method='tournament', crossover_method='order', mutation_method='scramble')
+a4_optimization('burma14.tsp', 150, 200, 0.2,
+                selection_method='tournament', crossover_method='uniform', mutation_method='swap')
+a4_optimization('burma14.tsp', 150, 250, 0.2,
+                selection_method='tournament', crossover_method='uniform', mutation_method='scramble')
+a4_optimization('burma14.tsp', 100, 250, 0.2,
+                selection_method='roulette', crossover_method='order', mutation_method='swap')
+a4_optimization('burma14.tsp', 100, 250, 0.2,
+                selection_method='roulette', crossover_method='order', mutation_method='scramble')
 
 # Dataset: Uulysses16
-# a4_optimization('ulysses16.tsp', 100, 200, 0.2,
-#                 selection_method='tournament', crossover_method='order', mutation_method='swap')
-# a4_optimization('ulysses16.tsp', 100, 200, 0.2,
-#                 selection_method='tournament', crossover_method='order', mutation_method='scramble')
-# a4_optimization('ulysses16.tsp', 100, 150, 0.2,
-#                 selection_method='tournament', crossover_method='uniform', mutation_method='swap')
-# a4_optimization('ulysses16.tsp', 60, 250, 0.2,
-#                 selection_method='tournament', crossover_method='uniform', mutation_method='scramble')
-# a4_optimization('ulysses16.tsp', 100, 50, 0.2,
-#                 selection_method='roulette', crossover_method='order', mutation_method='swap')
-# a4_optimization('ulysses16.tsp', 100, 150, 0.2,
-#                 selection_method='roulette', crossover_method='order', mutation_method='scramble')
+a4_optimization('ulysses16.tsp', 100, 200, 0.2,
+                selection_method='tournament', crossover_method='order', mutation_method='swap')
+a4_optimization('ulysses16.tsp', 100, 200, 0.2,
+                selection_method='tournament', crossover_method='order', mutation_method='scramble')
+a4_optimization('ulysses16.tsp', 100, 150, 0.2,
+                selection_method='tournament', crossover_method='uniform', mutation_method='swap')
+a4_optimization('ulysses16.tsp', 60, 250, 0.2,
+                selection_method='tournament', crossover_method='uniform', mutation_method='scramble')
+a4_optimization('ulysses16.tsp', 100, 50, 0.2,
+                selection_method='roulette', crossover_method='order', mutation_method='swap')
+a4_optimization('ulysses16.tsp', 100, 150, 0.2,
+                selection_method='roulette', crossover_method='order', mutation_method='scramble')
 
 
 # Calls for more than 30 cities
 # Dataset: Dantzig42
-# a4_optimization('dantzig42.tsp', 5, 30, 0.2,
-#                 selection_method='tournament', crossover_method='order', mutation_method='swap')
-# a4_optimization('dantzig42.tsp', 5, 20, 0.2,
-#                 selection_method='tournament', crossover_method='order', mutation_method='scramble')
-# a4_optimization('dantzig42.tsp', 30, 100, 0.2,
-#                 selection_method='tournament', crossover_method='uniform', mutation_method='swap')
-# a4_optimization('dantzig42.tsp', 20, 100, 0.2,
-#                 selection_method='tournament', crossover_method='uniform', mutation_method='scramble')
-# a4_optimization('dantzig42.tsp', 5, 25, 0.2,
-#                 selection_method='roulette', crossover_method='order', mutation_method='swap')
-# a4_optimization('dantzig42.tsp', 5, 30, 0.2,
-#                 selection_method='roulette', crossover_method='order', mutation_method='scramble')
+a4_optimization('dantzig42.tsp', 5, 30, 0.2,
+                selection_method='tournament', crossover_method='order', mutation_method='swap')
+a4_optimization('dantzig42.tsp', 5, 20, 0.2,
+                selection_method='tournament', crossover_method='order', mutation_method='scramble')
+a4_optimization('dantzig42.tsp', 30, 100, 0.2,
+                selection_method='tournament', crossover_method='uniform', mutation_method='swap')
+a4_optimization('dantzig42.tsp', 20, 100, 0.2,
+                selection_method='tournament', crossover_method='uniform', mutation_method='scramble')
+a4_optimization('dantzig42.tsp', 5, 25, 0.2,
+                selection_method='roulette', crossover_method='order', mutation_method='swap')
+a4_optimization('dantzig42.tsp', 5, 30, 0.2,
+                selection_method='roulette', crossover_method='order', mutation_method='scramble')
 
 # Dataset Att48
-# a4_optimization('att48.tsp', 25, 100, 0.2,
-#                 selection_method='tournament', crossover_method='order', mutation_method='swap')
-# a4_optimization('att48.tsp', 25, 100, 0.2,
-#                 selection_method='tournament', crossover_method='order', mutation_method='scramble')
-# a4_optimization('att48.tsp', 10, 30, 0.2,
-#                 selection_method='tournament', crossover_method='uniform', mutation_method='swap')
-# a4_optimization('att48.tsp', 10, 30, 0.2,
-#                 selection_method='tournament', crossover_method='uniform', mutation_method='scramble')
-# a4_optimization('att48.tsp', 20, 50, 0.2,
-#                 selection_method='roulette', crossover_method='order', mutation_method='swap')
-# a4_optimization('att48.tsp', 20, 50, 0.2,
-#                 selection_method='roulette', crossover_method='order', mutation_method='scramble')
+a4_optimization('att48.tsp', 250, 250, 0.2,
+                selection_method='tournament', crossover_method='order', mutation_method='swap')
+a4_optimization('att48.tsp', 175, 250, 0.2,
+                selection_method='tournament', crossover_method='order', mutation_method='scramble')
+a4_optimization('att48.tsp', 100, 250, 0.2,
+                selection_method='tournament', crossover_method='uniform', mutation_method='swap')
+a4_optimization('att48.tsp', 100, 250, 0.2,
+                selection_method='tournament', crossover_method='uniform', mutation_method='scramble')
+a4_optimization('att48.tsp', 150, 100, 0.2,
+                selection_method='roulette', crossover_method='order', mutation_method='swap')
+a4_optimization('att48.tsp', 150, 100, 0.2,
+                selection_method='roulette', crossover_method='order', mutation_method='scramble')
